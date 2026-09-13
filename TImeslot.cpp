@@ -1,5 +1,6 @@
 #include <string>
 #include <ostream>
+#include <vector>
 
 enum class Day : int { MON = 0, TUE, WED, THU, FRI, SAT, SUN };
 
@@ -12,7 +13,8 @@ private:
     std::string location;
 
 public:
-    TimeSlot(Day dayIn, int startMinIn, int endMinIn, const std::string& locationIn): day(dayIn), startMin(startMinIn), endMin(endMinIn), location(locationIn) {}
+    TimeSlot(Day dayIn, int startMinIn, int endMinIn, const std::string& locationIn)
+        : day(dayIn), startMin(startMinIn), endMin(endMinIn), location(locationIn) {}
 
     bool operator==(const TimeSlot& o) const
     {
@@ -62,5 +64,36 @@ public:
         os << endM;
         os << " @ " << t.location;
         return os;
+    }
+};
+
+class Timetable
+{
+private:
+    std::vector<TimeSlot> slots;
+
+public:
+    void addSlot(const TimeSlot& s)
+    {
+        slots.push_back(s);
+    }
+
+    Timetable& operator+=(const TimeSlot& s)
+    {
+        addSlot(s);
+        return *this;
+    }
+
+    bool clashesWith(const Timetable& other) const
+    {
+        for (const auto& mine : slots)
+            for (const auto& theirs : other.slots)
+                if (mine && theirs) return true; // uses TimeSlot::operator&&
+        return false;
+    }
+
+    const std::vector<TimeSlot>& getSlots() const
+    {
+        return slots; 
     }
 };

@@ -15,7 +15,8 @@ protected:
     std::string passwordHash;
 
 public:
-    Person(const std::string& userIDIn, const std::string& nameIn, const std::string& emailIn, const std::string& passwordHashIn): userID(userIDIn), name(nameIn), email(emailIn), passwordHash(passwordHashIn) {}
+    Person(const std::string& userIDIn, const std::string& nameIn, const std::string& emailIn, const std::string& passwordHashIn)
+        : userID(userIDIn), name(nameIn), email(emailIn), passwordHash(passwordHashIn) {}
 
     bool authenticate(const std::string& pw)const
     {
@@ -56,7 +57,8 @@ private:
     std::string activeSessionCode;
 
 public:
-    Student(const std::string& userIDIn, const std::string& nameIn, const std::string& emailIn, const std::string& passwordHashIn): Person(userIDIn, nameIn, emailIn, passwordHashIn) {}
+    Student(const std::string& userIDIn, const std::string& nameIn, const std::string& emailIn, const std::string& passwordHashIn) 
+        : Person(userIDIn, nameIn, emailIn, passwordHashIn) {}
 
     std::string role() const override
     {
@@ -124,7 +126,8 @@ private:
     std::vector<std::string> assignedCourses;
 
 public:
-    Lecturer(const std::string& userIDIn, const std::string& nameIn, const std::string& emailIn, const std::string& passwordHashIn): Person(userIDIn, nameIn, emailIn, passwordHashIn) {}
+    Lecturer(const std::string& userIDIn, const std::string& nameIn, const std::string& emailIn, const std::string& passwordHashIn)
+        : Person(userIDIn, nameIn, emailIn, passwordHashIn) {}
     
     std::string role() const override
     {
@@ -167,8 +170,9 @@ public:
 class Administrator: public Person
 {
 public:
-    Administrator(const std::string& userIDIn, const std::string& nameIn, const std::string& emailIn, const std::string& passwordHashIn): Person(userIDIn, nameIn, emailIn, passwordHashIn) {}
-    
+    Administrator(const std::string& userIDIn, const std::string& nameIn, const std::string& emailIn, const std::string& passwordHashIn)
+        : Person(userIDIn, nameIn, emailIn, passwordHashIn) {}
+
     std::string role() const override
     {
         return "Administrator";
