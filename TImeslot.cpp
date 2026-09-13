@@ -41,10 +41,22 @@ public:
         return a.overlaps(b);
     }
 
-    Day getDay() const { return day; }
-    int getStartMin() const { return startMin; }
-    int getEndMin() const { return endMin; }
-    const std::string& getLocation() const { return location; }
+    Day getDay() const 
+    { 
+        return day; 
+    }
+    int getStartMin() const 
+    { 
+        return startMin; 
+    }
+    int getEndMin() const 
+    { 
+        return endMin; 
+    }
+    const std::string& getLocation() const 
+    { 
+        return location; 
+    }
 
     friend std::ostream& operator<<(std::ostream& os, const TimeSlot& t)
     {
