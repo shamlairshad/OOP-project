@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 #include <set>
-#include <functional>
 
 class Course;
 
@@ -27,9 +26,12 @@ public:
 
     virtual void displayDashboard() const = 0;
 
-    static std::string hash(const std::string& pw)
-    {
-        return std::to_string(std::hash<std::string>{}(pw));
+    static std::string hash(const std::string& pw) {
+        unsigned long hashValue = 5381;
+        for (char c : pw) {
+            hashValue = ((hashValue << 5) + hashValue) + c; // hash * 33 + c
+        }
+        return std::to_string(hashValue);
     }
 
     const std::string& getId() const 
