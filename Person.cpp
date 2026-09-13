@@ -3,7 +3,6 @@
 #include <vector>
 #include <set>
 #include <functional>
-using namespace std;
 
 class Course;
 
@@ -11,34 +10,34 @@ class Course;
 class Person
 {
 protected:
-    string userID;
-    string name;
-    string email;
-    string passwordHash;
+    std::string userID;
+    std::string name;
+    std::string email;
+    std::string passwordHash;
 
 public:
-    Person(const string& userIDIn, const string& nameIn, const string& emailIn, const string& passwordHashIn): userID(userIDIn), name(nameIn), email(emailIn), passwordHash(passwordHashIn) {}
+    Person(const std::string& userIDIn, const std::string& nameIn, const std::string& emailIn, const std::string& passwordHashIn): userID(userIDIn), name(nameIn), email(emailIn), passwordHash(passwordHashIn) {}
 
-    bool authenticate(const string& pw)const
+    bool authenticate(const std::string& pw)const
     {
         return hash(pw) == passwordHash;
     }
 
-    virtual string role() const = 0;
+    virtual std::string role() const = 0;
 
     virtual void displayDashboard() const = 0;
 
-    static string hash(const string& pw)
+    static std::string hash(const std::string& pw)
     {
-        return to_string(std::hash<string>{}(pw));
+        return std::to_string(std::hash<std::string>{}(pw));
     }
 
-    const string& getId() const 
+    const std::string& getId() const 
     { 
         return userID; 
     }
 
-    const string& getName() const 
+    const std::string& getName() const 
     { 
         return name; 
     }
@@ -50,40 +49,40 @@ public:
 class Student : public Person
 {
 private:
-    vector<string> enrolledCourses;
-    set<string> completedCourses;
-    string activeSessionCode;
+    std::vector<std::string> enrolledCourses;
+    std::set<std::string> completedCourses;
+    std::string activeSessionCode;
 
 public:
-    Student(const string& userIDIn, const string& nameIn, const string& emailIn, const string& passwordHashIn): Person(userIDIn, nameIn, emailIn, passwordHashIn) {}
+    Student(const std::string& userIDIn, const std::string& nameIn, const std::string& emailIn, const std::string& passwordHashIn): Person(userIDIn, nameIn, emailIn, passwordHashIn) {}
 
-    string role() const override
+    std::string role() const override
     {
         return "Student";
     }
 
     void displayDashboard() const override
     {
-        cout << "\n===== STUDENT DASHBOARD =====\n";
-        cout << "1. View Courses\n";
-        cout << "2. Enroll in Course\n";
-        cout << "3. Drop Course\n";
-        cout << "4. View Timetable\n";
-        cout << "5. View Attendance\n";
-        cout << "6. Enter Session Code\n";
+        std::cout << "\n===== STUDENT DASHBOARD =====\n";
+        std::cout << "1. View Courses\n";
+        std::cout << "2. Enroll in Course\n";
+        std::cout << "3. Drop Course\n";
+        std::cout << "4. View Timetable\n";
+        std::cout << "5. View Attendance\n";
+        std::cout << "6. Enter Session Code\n";
     }
 
-    bool hasCompleted(const string& code) const
+    bool hasCompleted(const std::string& code) const
     {
         return completedCourses.find(code) != completedCourses.end();
     }
 
-    void setActiveSessionCode(const string& code) 
+    void setActiveSessionCode(const std::string& code) 
     { 
         activeSessionCode = code; 
     }
 
-    bool enterSessionCode(const string& code) const
+    bool enterSessionCode(const std::string& code) const
     {
         if (code.empty()) 
             return false;
@@ -92,21 +91,21 @@ public:
 
     void viewTimetable() const
     {
-        cout << "\n===== MY TIMETABLE =====\n";
+        std::cout << "\n===== MY TIMETABLE =====\n";
         // timetable display logic will be connected later
     }
 
-    void addEnrolledCourse(const string& code) 
+    void addEnrolledCourse(const std::string& code) 
     { 
         enrolledCourses.push_back(code); 
     }
 
-    void markCompleted(const string& code) 
+    void markCompleted(const std::string& code) 
     { 
         completedCourses.insert(code); 
     }
 
-    friend ostream& operator<<(ostream& os, const Student& s)
+    friend std::ostream& operator<<(std::ostream& os, const Student& s)
     {
         os << "Student ID: " << s.userID << '\n';
         os << "Name: " << s.name << '\n';
@@ -120,30 +119,30 @@ public:
 class Lecturer: public Person
 {
 private:
-    vector<string> assignedCourses;
+    std::vector<std::string> assignedCourses;
 
 public:
-    Lecturer(const string& userIDIn, const string& nameIn, const string& emailIn, const string& passwordHashIn): Person(userIDIn, nameIn, emailIn, passwordHashIn) {}
+    Lecturer(const std::string& userIDIn, const std::string& nameIn, const std::string& emailIn, const std::string& passwordHashIn): Person(userIDIn, nameIn, emailIn, passwordHashIn) {}
     
-    string role() const override
+    std::string role() const override
     {
         return "Lecturer";
     }
 
     void displayDashboard() const override
     {
-        cout << "\n===== LECTURER DASHBOARD =====\n";
-        cout << "1. View Enrollment List\n";
-        cout << "2. Record Class Attendance\n";
-        cout << "3. Manage Course Offering\n";
-        cout << "4. Manage Timetable\n";
-        cout << "5. View Attendance\n";
-        cout << "6. Logout\n";
+        std::cout << "\n===== LECTURER DASHBOARD =====\n";
+        std::cout << "1. View Enrollment List\n";
+        std::cout << "2. Record Class Attendance\n";
+        std::cout << "3. Manage Course Offering\n";
+        std::cout << "4. Manage Timetable\n";
+        std::cout << "5. View Attendance\n";
+        std::cout << "6. Logout\n";
     }
 
-    bool teaches(const string& code) const
+    bool teaches(const std::string& code) const
     {
-        for (const string& courseCode : assignedCourses)
+        for (const std::string& courseCode : assignedCourses)
         {
             if (courseCode == code)
             {
@@ -154,63 +153,63 @@ public:
         return false;
     }
 
-    void assignCourse(const string& code) 
+    void assignCourse(const std::string& code) 
     {
         assignedCourses.push_back(code); 
     }
 
-    vector<string> viewEnrollmentList(const Course* course)const;
+    std::vector<std::string> viewEnrollmentList(const Course* course)const;
 
 };
 //Derived class Administrator
 class Administrator: public Person
 {
 public:
-    Administrator(const string& userIDIn, const string& nameIn, const string& emailIn, const string& passwordHashIn): Person(userIDIn, nameIn, emailIn, passwordHashIn) {}
+    Administrator(const std::string& userIDIn, const std::string& nameIn, const std::string& emailIn, const std::string& passwordHashIn): Person(userIDIn, nameIn, emailIn, passwordHashIn) {}
     
-    string role() const override
+    std::string role() const override
     {
         return "Administrator";
     }
 
     void displayDashboard() const override
     {
-        cout << "\n===== ADMINISTRATOR DASHBOARD =====\n";
-        cout << "1. Manage Users\n";
-        cout << "2. Manage Courses\n";
-        cout << "3. Assign Lecturers\n";
-        cout << "4. Manage Timetable\n";
-        cout << "5. View Attendance Reports\n";
-        cout << "6. Logout\n";
+        std::cout << "\n===== ADMINISTRATOR DASHBOARD =====\n";
+        std::cout << "1. Manage Users\n";
+        std::cout << "2. Manage Courses\n";
+        std::cout << "3. Assign Lecturers\n";
+        std::cout << "4. Manage Timetable\n";
+        std::cout << "5. View Attendance Reports\n";
+        std::cout << "6. Logout\n";
     }
 };
 
 class Course
 {
 private:
-    string code;
-    vector<string> enrolledStudents;
+    std::string code;
+    std::vector<std::string> enrolledStudents;
 
 public:
-    explicit Course(const string& codeIn) : code(codeIn) {}
+    explicit Course(const std::string& codeIn) : code(codeIn) {}
 
-    const string& getCode() const 
+    const std::string& getCode() const 
     { 
         return code; 
     }
 
-    vector<string> getEnrolledStudents() const 
+    std::vector<std::string> getEnrolledStudents() const 
     { 
         return enrolledStudents; 
     }
 
-    void addStudent(const string& id) 
+    void addStudent(const std::string& id) 
     { 
         enrolledStudents.push_back(id); 
     }
 };
 
-vector<string> Lecturer::viewEnrollmentList(const Course* course) const
+std::vector<std::string> Lecturer::viewEnrollmentList(const Course* course) const
 {
     if (course == nullptr) 
         return {};
